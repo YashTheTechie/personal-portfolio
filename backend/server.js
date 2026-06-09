@@ -6,12 +6,24 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const app = express();
+
+// MANDATORY FOR RENDER: Instructs Express to trust the proxy load balancers
+// This ensures express-rate-limit catches the user's actual IP, not Render's internal IP
 app.set('trust proxy', 1);
+
 // 1. Security & Network Configurations
-// Allows both your local testing and your future live Vercel portfolio to talk to this API
+// Bulletproof CORS setup allowing local development, live deployment, and trailing slash configurations
 app.use(cors({ 
-  origin: ['http://localhost:3000', 'https://your-portfolio-domain.vercel.app'] 
+  origin: [
+    'http://localhost:3000', 
+    'https://portfolio-frontend-7nsv.onrender.com',
+    'https://portfolio-frontend-7nsv.onrender.com/'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200 // Provides legacy browser support (IE11, various smart TVs) for preflight check response
 })); 
+
 app.use(express.json());
 
 // Anti-spam security: Limits an IP address to 3 contact messages per hour
