@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const app = express();
-
+app.set('trust proxy', 1);
 // 1. Security & Network Configurations
 // Allows both your local testing and your future live Vercel portfolio to talk to this API
 app.use(cors({ 
