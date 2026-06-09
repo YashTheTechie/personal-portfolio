@@ -87,7 +87,7 @@ export default function Home() {
           maxWidth: "580px", color: "#94a3b8", lineHeight: 1.8, fontSize: "clamp(0.9rem, 1.8vw, 1.05rem)",
           fontFamily: "'DM Sans', sans-serif", animation: "fadeUp 0.7s ease 0.3s both", marginBottom: "40px",
         }}>
-          Information Technology grad from Maharashtra with a 9.02 CGPA and a passion for building beautiful, scalable web applications. 5 full-stack projects shipped. Ready to make an impact.
+          Information Technology grad from Mumbai with a 9.02 CGPA and a passion for building beautiful, scalable web applications. 5 full-stack projects shipped. Ready to make an impact.
         </p>
 
         {/* Dynamic Metric Badges */}
