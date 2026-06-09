@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const nodemailer = require('nodemailer');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const { Resend } = require('resend'); // 👈 Swapped nodemailer out for Resend
 require('dotenv').config();
 
 const app = express();
@@ -47,14 +47,8 @@ const MessageSchema = new mongoose.Schema({
 });
 const Message = mongoose.model('Message', MessageSchema);
 
-// 3. Email Transport Setup (Nodemailer using your champyash21 configs)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// 3. Email Transport Setup (Initialized via Resend HTTP Client)
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // 4. API Endpoints
 app.post('/api/contact', msgLimiter, async (req, res) => {
@@ -69,15 +63,15 @@ app.post('/api/contact', msgLimiter, async (req, res) => {
     const newInquiry = new Message({ name, email, message });
     await newInquiry.save();
 
-    // Phase B: Dispatch email alert straight to your inbox
-    const emailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.RECEIVER_EMAIL,
+    // Phase B: Dispatch email alert straight to your inbox via Resend
+    // Note: Free tier Resend domain must remain 'onboarding@resend.dev'
+    await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>',
+      to: process.env.RECEIVER_EMAIL, // This sends directly to champyash21@gmail.com
       subject: `💼 New Portfolio Message from ${name}`,
       text: `You received a new message from your portfolio website:\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-    };
+    });
 
-    await transporter.sendMail(emailOptions);
     res.status(201).json({ success: true, message: 'Message recorded and dispatched successfully.' });
 
   } catch (err) {
