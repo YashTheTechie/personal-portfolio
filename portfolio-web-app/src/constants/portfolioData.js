@@ -9,10 +9,10 @@ export const PROJECTS = [
   },
   {
     id: 2,
-    title: "WhatsApp Clone",
-    desc: "Real-time messaging application with group chats, media sharing, online status indicators, and end-to-end encrypted message flow.",
-    tags: ["React", "Socket.io", "Node.js", "Firebase"],
-    icon: "💬",
+    title: "AI Mock Interview Platform",
+    desc: "AI-powered mock interview platform with real-time feedback, natural language processing, and personalized improvement suggestions.",
+    tags: ["React", "Drizzle", "Gemini AI", "clerk"],
+    icon: "🧠",
     color: "#00d2ff",
   },
   {
