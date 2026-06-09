@@ -12,8 +12,8 @@ export default function Contact() {
       setLoading(true);
       
       try {
-        // Dispatches the form fields payload directly to your local node engine
-        const response = await fetch("http://localhost:5000/api/contact", {
+        // CHANGED: Points the form payload directly to your live Render engine instead of localhost
+        const response = await fetch("https://portfolio-backend-fqzy.onrender.com/api/contact", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -33,9 +33,10 @@ export default function Contact() {
         }
       } catch (err) {
         console.error("Network Link Disruption:", err);
-        alert("Cannot connect to server. Make sure 'node sever.js' is running in your backend terminal!");
+        // CHANGED: Cleaner production-ready alert error for live visitors
+        alert("The server is currently unable to accept messages. Please try again shortly or contact me directly via email!");
       } finally {
-        setLoading(false);
+        loading && setLoading(false);
       }
     }
   };
